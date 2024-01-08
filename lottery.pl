@@ -80,7 +80,7 @@ test_upper_bound( Vs, N, UB ) :-
     sum( Vs, #=, N ),
     get_covering_design_nums( Vs, Scores ),
     sum( Scores, #=<, UB ),
-    sorting(Vs,[1,2,3,4,5],Vs).
+    sorted(Vs).
 get_covering_design_nums( Vs, Scores ) :-
     Vals = [0,0,0,0,0,1,3,3,3,4,
             6,6,7,7,10,10,12,12,15,16,
@@ -349,7 +349,7 @@ populate_toes_in_Iblocks( DeltaNoOnes, MinToes, Excess, Vs ) :-
     sum(Excesses, #=<, Excess ),
     sum(Vs, #>=, MinToes ),
     numlist(N,L),
-    sorting(Vs,L,Vs).
+    sorted(Vs).
 adjust_domain( D, V ) :- ( D = 2 -> V #=< 10; D #= 3 ).
 get_ex( V, D, Ex ) :-
     ( D = 2 -> element( V, [0,0,0,0,0,0,2,3,7,10], Ex ); element( V, [1,2,3,4,5,6,7,8,9,10,11,12,20,25,27], Ex )).
@@ -501,7 +501,9 @@ write_delta_exception( [R, S, D2U, D2L, Delta] ) :-
     print_message(informational, format('[~w,~w,~w,~w,~w]',[R, S, D2U, D2L, Delta]) ).
     
 
-
+sorted([        ]).
+sorted([_X]).
+sorted([X0,X1|Xs]) :- X0 #=< X1, sorted([X1|Xs]).
 
 writeln( Stream ) :-
         write( Stream ),

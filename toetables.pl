@@ -122,7 +122,7 @@ feasible_webbing_partitions( 2, ToePartition, Excess, NumWebbings, Vs, Partition
     maplist( sum_geq(7), CostPairs),
     maplist( basesixify, Partitions, BasedPartitions ),
     numlist( NumWebbings, L ),
-    sorting( BasedPartitions, L, BasedPartitions ).
+    sorted( BasedPartitions).
 
 feasible_webbing_partitions( 3, ToePartition, Excess, NumWebbings, Vs, Partitions, Costs, Scores ) :-
     length(Partitions, NumWebbings),
@@ -141,7 +141,7 @@ feasible_webbing_partitions( 3, ToePartition, Excess, NumWebbings, Vs, Partition
     maplist( sum_geq(7), CostPairs),
     maplist( basesixify, Partitions, BasedPartitions ),
     numlist( NumWebbings, L ),
-    sorting( BasedPartitions, L, BasedPartitions ).
+    sorted( BasedPartitions).
 
 basesixify( [A,B], C ) :- C #= 6*A + B .
 basesixify( [A,B,C], D ) :- D #= 36*A + 6*B + C.
