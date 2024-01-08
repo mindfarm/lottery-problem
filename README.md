@@ -10,7 +10,7 @@ DAVID CUSHING AND DAVID I. STEWART](https://arxiv.org/pdf/2307.12430.pdf)
 
 ## Example Usage
 ```
- prolog
+$ prolog
 Welcome to SWI-Prolog (threaded, 64 bits, version 8.4.2)
 SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
 Please run ?- license. for legal details.
@@ -19,7 +19,7 @@ For online help and background, visit https://www.swi-prolog.org
 For built-in help, use ?- help(Topic). or ?- apropos(Word).
 
 ?- ['lottery.pl'].
-Warning: /home/shane/GoLang/src/github.com/cushydom88/lottery-problem/lottery.pl:344:
+Warning: /home/shane/src/github.com/mindfarm/lottery-problem/lottery.pl:344:
 Warning:    Singleton variables: [L]
 true.
 
