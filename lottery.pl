@@ -349,7 +349,7 @@ populate_toes_in_Iblocks( DeltaNoOnes, MinToes, Excess, Vs ) :-
     maplist( get_ex, Vs, DeltaNoOnes, Excesses ),
     sum(Excesses, #=<, Excess ),
     sum(Vs, #>=, MinToes ),
-    numlist(N,L),
+    numlist(1,N,L),
     sorted(Vs).
 adjust_domain( D, V ) :- ( D = 2 -> V #=< 10; D #= 3 ).
 get_ex( V, D, Ex ) :-

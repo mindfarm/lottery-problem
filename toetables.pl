@@ -22,7 +22,7 @@ feasible_excess_full( S, D, Excess ) :-
 feasible_excess_full2( D, Excess, ToePartition ) :-
     sum( ToePartition, #=, S ),
     MaxNumWebbings #= 1 + (( Excess + S - 3 )//4),
-    numlist( MaxNumWebbings, Inds ),
+    numlist( 0,MaxNumWebbings, Inds ),
     maplist( feasible_excess( D, ToePartition, Excess), Inds, _ ).
 
 feasible_excess( D, ToePartition, Excess, NumWebbings, PossiblePartitions ) :-
@@ -121,7 +121,7 @@ feasible_webbing_partitions( 2, ToePartition, Excess, NumWebbings, Vs, Partition
     bagof( [C1, C2], I^J^( nth1(I,Costs,C1), nth1(J,Costs,C2), I #< J ), CostPairs),
     maplist( sum_geq(7), CostPairs),
     maplist( basesixify, Partitions, BasedPartitions ),
-    numlist( NumWebbings, L ),
+    numlist( 0,NumWebbings, L ),
     sorted( BasedPartitions).
 
 feasible_webbing_partitions( 3, ToePartition, Excess, NumWebbings, Vs, Partitions, Costs, Scores ) :-
@@ -140,7 +140,7 @@ feasible_webbing_partitions( 3, ToePartition, Excess, NumWebbings, Vs, Partition
     bagof( [C1, C2], I^J^( nth1(I,Costs,C1), nth1(J,Costs,C2), I #< J ), CostPairs),
     maplist( sum_geq(7), CostPairs),
     maplist( basesixify, Partitions, BasedPartitions ),
-    numlist( NumWebbings, L ),
+    numlist( 0,NumWebbings, L ),
     sorted( BasedPartitions).
 
 basesixify( [A,B], C ) :- C #= 6*A + B .
