@@ -105,10 +105,10 @@ furedi_lower_bound(Vs, N, K, P, LB ) :-
     sum( Ws, #=<, LLB  ).
 furedi_lower_bound_helper( K, X, Y ) :- 
     ((X -1 ) mod (K - 1 )  ) #= 0,
-    Y #= X * ( (X-1) / (K - 1 ) ).
+    Y #= X * ( (X-1) // (K - 1 ) ).
 furedi_lower_bound_helper( K, X, Y ) :- 
     ((X -1 ) mod (K - 1 )  ) #\= 0,
-    Y #= X * ( 1 + ( (X-1) / ( K - 1 ) ) ).
+    Y #= X * ( 1 + ( (X-1) // ( K - 1 ) ) ).
 %%%%%%
 
 %%% BAD RS TUPLES %%%
@@ -186,7 +186,7 @@ partially_fill_bad_r_s_tuple( N, UB, [R,S,_,_] ) :-
 
 partially_fill_bad_r_s_tuple2( N, UB, R, S, D2 ) :-
     Y #= (D2 mod 8),
-    (Y = 0 ->  PossExtraI2s #= D2 / 8 ; PossExtraI2s #= 1 + (D2 / 8)),
+    (Y = 0 ->  PossExtraI2s #= D2 // 8 ; PossExtraI2s #= 1 + (D2 // 8)),
     make_non_negative(PossExtraI2s, ExtraI2s),
     I2s #= ExtraI2s + S,
     row_of_n_ms( I2s, 2, FirstDelta ),
@@ -279,7 +279,7 @@ make_non_negative(X, Y) :-
 % Lower bound the number of blocks in B_I
 get_min_num_Iblocks( N, Min) :-
     M #= ( ( N - 5 ) mod 5 ),
-    ( M = 0 -> Min #= (N - 5)/5; Min #= 1 + ((N - 5)/5) ).
+    ( M = 0 -> Min #= (N - 5)//5; Min #= 1 + ((N - 5)//5) ).
 
 
 % Find the values of Delta(I) we cannot immediately rule out
@@ -329,7 +329,7 @@ changing_socks( N, UB, R, MinToes, [Sol, _, D2U] ) :-
     sum( Sol, #=, SumSol ),
     ExcessToes #= SumSol - MinToes, 
     SocksToChanges #= ExcessToes + 1,
-    CanChange #= OverD3Excess/3,
+    CanChange #= OverD3Excess//3,
     SocksToChanges #> NumTwelves - CanChange.
 
 
@@ -365,7 +365,7 @@ get_delta_two( N, UB, R, S, Delta2 ) :-
     %get_delta_two2( N, UB, R, S, PossDelta2 ),
     X #= (3*N - 12 * R - 6 * (UB - 1) - 9*S  ),
     Y #= (X mod 8),
-    (Y = 0 ->  PossDelta2 #= X / 8 ; PossDelta2 #= 1 + (X / 8)),
+    (Y = 0 ->  PossDelta2 #= X // 8 ; PossDelta2 #= 1 + (X // 8)),
     make_non_negative(PossDelta2, Delta2).
 
 row_of_n_ms( N, M, Row ) :-
