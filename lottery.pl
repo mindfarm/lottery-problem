@@ -342,7 +342,8 @@ d3_excess_score(V,S) :- element( V, [0,0,0,0,0,0,0,0,0,0,0,0,7,11,12], S ).
 grab_second_and_third( [_, Y, Z], Y, Z ).
 
 populate_toes_in_Iblocks( DeltaNoOnes, MinToes, Excess, Vs ) :-
-    same_length( Vs, DeltaNoOnes, N ),
+    length( DeltaNoOnes, N ),
+    same_length( Vs, DeltaNoOnes ),
     Vs ins 1 .. 15,
     maplist( adjust_domain, DeltaNoOnes, Vs ), 
     maplist( get_ex, Vs, DeltaNoOnes, Excesses ),
