@@ -2,7 +2,7 @@
 :-use_module(library(lists)).
 :-use_module(library(ordsets)).
 :-use_module(library(ugraphs)).
-:-use_module(library(between)).
+% :-use_module(library(between)).
 
 % Note this code runs on SICSTUS Prolog
 
@@ -54,7 +54,7 @@ possible_lottery_number( N, PrevLottoNum, UB ) :-
 bound_isolated_blocks_and_num_shans( N, UB, RSPairs ) :-
     T #= 2*N - 6*(UB - 1),
     ( T =< 0 -> RMin #= 0; RMin #= T ),
-    findall( [R,S], ( domain( [R,S], 0, 5 ), R #>= RMin, R + S #=< 5, labeling([], [R,S]) ),  PossRSPairs ),
+    findall( [R,S], ( [R,S] ins 0 .. 5, R #>= RMin, R + S #=< 5, labeling([], [R,S]) ),  PossRSPairs ),
     include( num_isolated_blocks_and_shans_helper(N, UB), PossRSPairs, RSPairs ).
 num_isolated_blocks_and_shans_helper(N, UB, [R,S] ) :-
     M #= N - 6*R - 9*S,
@@ -76,7 +76,7 @@ upper_bound( N, Guess, UB ) :-
     ).
 test_upper_bound( Vs, N, UB ) :- 
     length( Vs, 5 ),
-    domain( Vs, 6, 70 ),
+    Vs ins 6 .. 70 ,
     sum( Vs, #=, N ),
     get_covering_design_nums( Vs, Scores ),
     sum( Scores, #=<, UB ),
@@ -99,7 +99,7 @@ furedi_lower_bound(Vs, N, K, P, LB ) :-
     LLB is K * LB,
     NP is P - 1,
     length( Vs, NP ),
-    domain( Vs, 1, N ),
+    Vs ins 1 .. N,
     sum( Vs, #=, N ),
     maplist( furedi_lower_bound_helper(K), Vs, Ws ),
     sum( Ws, #=<, LLB  ).
@@ -288,7 +288,7 @@ get_deltaI_exceptions( N, UB, MinNumIBlocks, [R, S], DeltaExceptions ) :-
     get_delta_two( N, UB, R, S, Delta2 ),
     K2 #= 5 - R - S - Delta2, % have a look at K2 not strictly positive
     row_of_n_ms( Delta2, 2, L2 ),
-    findall( Xs, ( length(Xs, 2), domain(Xs, 0, K2), sum(Xs, #=, K2), labeling([], Xs) ), VSizes ),
+    findall( Xs, ( length(Xs, 2), Xs ins 0 .. K2, sum(Xs, #=, K2), labeling([], Xs) ), VSizes ),
     maplist( make_delta_end, VSizes, DeltaEnds ),
     maplist( append(L2), DeltaEnds, Deltas1 ),
     % Remove out Delta(I) where |B_I| is too small 
@@ -343,7 +343,7 @@ grab_second_and_third( [_, Y, Z], Y, Z ).
 
 populate_toes_in_Iblocks( DeltaNoOnes, MinToes, Excess, Vs ) :-
     same_length( Vs, DeltaNoOnes, N ),
-    domain( Vs, 1, 15 ),
+    Vs ins 1 .. 15,
     maplist( adjust_domain, DeltaNoOnes, Vs ), 
     maplist( get_ex, Vs, DeltaNoOnes, Excesses ),
     sum(Excesses, #=<, Excess ),
@@ -402,7 +402,7 @@ twos_lie_with_twos(  N, UB, R, S, Delta, FootExcess, Sol, [Sol, D2L, D2U] ) :-
     append( [Sol2, Sol3], Sol ),
     list_to_ord_set( Sol2, Sol2Uniques ),
     list_to_ord_set( Sol3, Sol3Uniques ),
-    findall( [X,Y], (domain([X,Y], 0, 15 ), member(X, Sol2Uniques ), member(Y, Sol3Uniques ), X #\= 10, labeling([], [X,Y]) ), TwoThreePairs ),
+    findall( [X,Y], ([X,Y] ins 0 .. 15, member(X, Sol2Uniques ), member(Y, Sol3Uniques ), X #\= 10, labeling([], [X,Y]) ), TwoThreePairs ),
     ( TwoThreePairs = [] ->  ( D2Lower > I2s -> false;  D2L #=  D2Upper + 9*S, D2U #=  D2Lower + 9*S  );
     maplist( min_excess_for_two_three_split, TwoThreePairs, TwoThreeSplitExcesses ),
     list_to_ord_set( TwoThreeSplitExcesses, TwoThreeSplitExcessesUniques ),
@@ -414,7 +414,7 @@ twos_lie_with_twos(  N, UB, R, S, Delta, FootExcess, Sol, [Sol, D2L, D2U] ) :-
     numlist( 0, ExtraExcess, Es ),
     numlist( D2Lower, D2Upper, D2s ),
     ( ExtraExcess > D2Upper -> M #= ExtraExcess; M #= D2Upper ),
-    findall( [X,Y], (domain([X,Y], 0, M ), member(X, D2s ), member(Y, Es ), labeling([], [X,Y]) ), D2andExtraExcessPairs ),
+    findall( [X,Y], ([X,Y] ins 0 .. M, member(X, D2s ), member(Y, Es ), labeling([], [X,Y]) ), D2andExtraExcessPairs ),
     EmptySpaces #= 10*I2s - Sol2Sum,
     include( check_d2_and_extra_excess_pair( I2s, EmptySpaces, Max2Toes, MinExcessForSplit ), D2andExtraExcessPairs, D2andExtraExcessPairs1 ),
     ( D2andExtraExcessPairs1 = [] -> false;

@@ -40,7 +40,7 @@ attempt_to_fill_webbing_partition( D, ToePartition, WebbingPartitions ) :-
     sum( ToePartition, #=, S ),
     maplist( length_(S), WebMat ),
     append( WebMat, Vs ),
-    domain( Vs, 0, 1 ),
+    Vs ins 0 .. 1,
     maplist( table_webbing(ToePartition), WebMat, WebbingPartitions ),
     transpose(WebMat,TWebMat),
     maplist(sum_geq(2), WebMat), 
@@ -62,7 +62,7 @@ part_constrainer([Part1,Part2]):-
 
 part_constrainer0([PartRow1,PartRow2]):-
     same_length(AndRow,PartRow1),
-    domain(AndRow,0,1),
+    AndRow ins 0s ..1,
     maplist(and_re,PartRow1,PartRow2,AndRow),
     bool_or(AndRow,1).
 
@@ -76,11 +76,11 @@ table_webbing( ToePartition, Webbing, WebbingPartition) :-
 
 webbings_based_on_perm( [A,B], [D,E], PossibleWebbings ) :-
     sum( [A,B], #=, S ),
-    findall( Ws, ( length(Ws, S), domain( Ws, 0, 1 ), length(W1, A), length(W2, B), append([W1,W2], Ws), sum(W1, #=, D), sum(W2, #=, E), labeling([], Ws) ), PossibleWebbings ).
+    findall( Ws, ( length(Ws, S), Ws ins 0 .. 1, length(W1, A), length(W2, B), append([W1,W2], Ws), sum(W1, #=, D), sum(W2, #=, E), labeling([], Ws) ), PossibleWebbings ).
 
 webbings_based_on_perm( [A,B,C], [D,E,F], PossibleWebbings ) :-
     sum( [A,B,C], #=, S ),
-    findall( Ws, ( length(Ws, S), domain( Ws, 0, 1 ), length(W1, A), length(W2, B), length(W3, C), append([W1,W2,W3], Ws), sum(W1, #=, D), sum(W2, #=, E), sum(W3, #=, F), labeling([], Ws) ), PossibleWebbings ).
+    findall( Ws, ( length(Ws, S), Ws ins 0 .. 1, length(W1, A), length(W2, B), length(W3, C), append([W1,W2,W3], Ws), sum(W1, #=, D), sum(W2, #=, E), sum(W3, #=, F), labeling([], Ws) ), PossibleWebbings ).
 
 get_permuted_partitions( [A,B], Ps ) :-
     A #< B,
@@ -109,7 +109,7 @@ feasible_webbing_partitions( 2, ToePartition, Excess, NumWebbings, Vs, Partition
     length(Partitions, NumWebbings),
     maplist( length_(2), Partitions ),
     append( Partitions, Vs ),
-    domain( Vs, 0, 5 ),
+    Vs ins 0 .. 5,
     table_partitions( 2, Partitions ),
     maplist( get_double_score, Partitions, Scores ),
     maplist( get_sum, Partitions, Costs ),
@@ -128,7 +128,7 @@ feasible_webbing_partitions( 3, ToePartition, Excess, NumWebbings, Vs, Partition
     length(Partitions, NumWebbings),
     maplist( length_(3), Partitions ),
     append( Partitions, Vs ),
-    domain( Vs, 0, 5 ),
+    Vs ins 0 .. 5,
     table_partitions( 3, Partitions ),
     maplist( get_triple_score, Partitions, Scores ),
     maplist( get_sum, Partitions, Costs ),
@@ -170,7 +170,7 @@ partitions_trim(N,MinSize,MaxSize,D,Parts):-is_partition(N,MinSize,MaxSize,Parti
         setof(TrimPart,P^Partit^(labeling([],Partit),delete(Partit,0,TrimPart),length(TrimPart,P),P=<D),Parts).
 
 is_partition(N,MinSize,MaxSize,RevPart):- 
-    MinSize>0, R is N//MinSize, length(Part,R), increasing(Part), domain(Part,0,MaxSize), reverse(Part,RevPart),                 
+    MinSize>0, R is N//MinSize, length(Part,R), increasing(Part), Part ins 0 .. MaxSize, reverse(Part,RevPart),
     ( foreach(X,Part), param(MinSize,MaxSize) do (X#=0 #\/ X#>=MinSize) ),
     sum(Part,#=,N).
 
