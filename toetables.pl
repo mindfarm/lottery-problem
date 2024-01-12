@@ -1,5 +1,6 @@
 :- use_module(library(clpfd)).
 :- use_module(library(lists)).
+:- use_module(library(apply)).
 :- use_module(library(ordsets)).
 
 % ['toetables.pl'].
@@ -169,31 +170,16 @@ partitions_trim(N,MinSize,MaxSize,D,Parts):-is_partition(N,MinSize,MaxSize,Parti
 
 is_partition(N,MinSize,MaxSize,RevPart):- 
     MinSize>0, R is N//MinSize, length(Part,R), increasing(Part), Part ins 0 .. MaxSize, reverse(Part,RevPart),
-    ( foreach(X,Part), param(MinSize,MaxSize) do (X#=0 #\/ X#>=MinSize) ),
+    % ( foreach(X,Part), param(MinSize,MaxSize) do (X#=0 #\/ X#>=MinSize) ),
+    maplist(foobar(MinSize,MaxSize),Part).
     sum(Part,#=,N).
+
+foobar(MinSize, MaxSize,X):- X#=0 #\/ X#>=MinSize.
 
 increasing([]).
 increasing([_]).
 increasing(List):-List=[A|Tail1],Tail1=[B|_],A#=<B,increasing(Tail1).
 
-maplist(Pred, Ws, Xs, Ys, Zs) :-
-        ( foreach(W,Ws),
-            foreach(X,Xs),
-            foreach(Y,Ys),
-            foreach(Z,Zs),
-            param(Pred)
-        do call(Pred, W, X, Y, Z)
-        ).
-
-maplist(Pred, Us, Ws, Xs, Ys, Zs) :-
-        ( foreach(U,Us),
-        foreach(W,Ws),
-            foreach(X,Xs),
-            foreach(Y,Ys),
-            foreach(Z,Zs),
-            param(Pred)
-        do call(Pred, U, W, X, Y, Z)
-        ).
 
 writeln( Stream ) :-
     write( Stream ),
