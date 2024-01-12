@@ -60,7 +60,7 @@ part_constrainer([Part1,Part2]):-
 
 part_constrainer0([PartRow1,PartRow2]):-
     same_length(AndRow,PartRow1),
-    AndRow ins 0s ..1,
+    AndRow ins 0 ..1,
     maplist(and_re,PartRow1,PartRow2,AndRow),
     bool_or(AndRow,1).
 
