@@ -1,7 +1,5 @@
 :- use_module(library(clpfd)).
 :- use_module(library(lists)).
-:- use_module(library(between)).
-:- use_module(library(sets)).
 :- use_module(library(ordsets)).
 
 % ['toetables.pl'].
